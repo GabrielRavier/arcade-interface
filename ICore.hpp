@@ -3,8 +3,59 @@
 #include "IDisplayModule.hpp"
 #include <unordered_map>
 
-// Note: Typically the texture cache would be implemented using an unordered_map
 class ICore {
 public:
+    // Sets the amount of pixels contained in every cell. pixelsPerCell MUST NOT be 0, and this MUST be called before trying to do anything w.r.t. rendering/displaying
+    virtual void setPixelsPerCell(std::uint32_t pixelsPerCell) = 0;
+
+    // Sets the framerate (in frames per second). framerate MUST NOT be 0, and SHOULD be a reasonable amount. Note that framerate handling WILL be done by the core. This MUST be called before trying to do anything w.r.t. displaying
+    // Hint: nanosleep
     virtual void setFramerate(unsigned framerate) = 0;
+
+    // See IDisplayModule::Vector2u for docs
+    using Vector2u = IDisplayModule::Vector2u;
+
+    // See IDisplayModule::Color for docs
+    using Color = IDisplayModule::Color;
+
+    static Vector2u getSquareCenter(Vector2u squareTopLeftPos, Vector2u squareSize)
+    {
+        return {squareTopLeftPos.x + ((squareTopLeftPos.x - squareSize.x) / 2), squareTopLeftPos.y + ((squareTopLeftPos.y - squareSize.y) / 2)};
+    }
+
+    // This exists because one needs to be able to dynamically reload the textures when changing the display module.
+    // Essentially, this needs to contain all the information to pass to IDisplayModule::loadTexture, and a pointer to the result of that, so that when changing graphics library one can call IDisplayModule::loadTexture with the arguments and update the raw texture pointer.
+    // That raw texture pointer should NEVER be visible to the IGameModule, such as to avoid potential leaks of texture pointers which could lead to invalid usage
+    // Hint: std::deque is probably the best way you can implement the texture store (which you need to be able to reload them)
+    class Texture;
+    virtual Texture *loadTexture(const std::string &pngFilename, char character, ICore::Color color, std::size_t width, std::size_t height) = 0;
+
+    // See IDisplayModule::openWindow for docs
+    virtual void openWindow(Vector2u pixelsWantedWindowSize) = 0;
+
+    // See IDisplayModule::Button for docs
+    using Button = IDisplayModule::Button;
+
+    // See IDisplayModule::isButtonPressed for docs
+    virtual bool isButtonPressed(ICore::Button button) = 0;
+
+    // See IDisplayModule::isButtonHeld for docs
+    virtual bool isButtonHeld(ICore::Button button) = 0;
+
+    // See IDisplayModule::startTextInput for docs
+    virtual void startTextInput() = 0;
+
+    // See IDisplayModule::getTextInput for docs
+    virtual std::string getTextInput() = 0;
+
+    // See IDisplayModule::endTextInput for docs
+    virtual void endTextInput() = 0;
+
+    struct Sprite {
+        Vector2u pixelPosition;
+        ICore::Texture *texture;
+    };
+
+    // This is equivalent to IDisplayModule::renderSprite, except that it accepts core sprites instead of DisplayModule sprites
+    virtual void renderSprite(ICore::Sprite sprite) = 0;
 };
