@@ -38,7 +38,7 @@ public:
         return {topLeft.x + ((topLeft.x - size.x) / 2), topLeft.y + ((topLeft.y - size.y) / 2)};
     }
 
-    // Texture is a class containing a texture. A texture contains a width and a height, which SHOULD correspond to the width and height of the image in the .png file. Direct usage of loadTexture SHOULD only be done by the ICore interface. Note that with a backend that supports using images in sprite (usually graphics), usually only the pngFilename parameters will be used, whereas on a backend that does not (usually text) usually only the rest of the parameters will be used.
+    // Texture is a class containing a texture. A texture contains a width and a height, which SHOULD correspond to the width and height of the image in the .png file. Note that with a backend that supports using images in sprite (usually graphics), usually only the pngFilename parameters will be used, whereas on a backend that does not (usually text) usually only the rest of the parameters will be used.
     class Texture {
     public:
         using Id = std::uint64_t;
@@ -47,7 +47,7 @@ public:
 
     struct Sprite {
         Vector2u rawPixelPosition;
-        Texture::Id id;
+        Texture *texture;
     };
 
     // This opens the window with the wanted window size. The size is calculated in cells. It MUST be called before trying to render or display anything
