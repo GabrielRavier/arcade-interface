@@ -9,7 +9,7 @@ public:
     virtual void setPixelsPerCell(std::uint32_t pixelsPerCell) = 0;
 
     // Sets the framerate (in frames per second). framerate MUST NOT be 0, and SHOULD be a reasonable amount. Note that framerate handling WILL be done by the core. This MUST be called before trying to do anything w.r.t. displaying
-    // Hint: nanosleep
+    // To implementers: Use nanosleep
     virtual void setFramerate(unsigned framerate) = 0;
 
     // See IDisplayModule::Vector2u for docs
