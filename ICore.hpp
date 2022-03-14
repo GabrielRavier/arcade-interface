@@ -42,6 +42,10 @@ public:
     // See IDisplayModule::isButtonHeld for docs
     virtual bool isButtonHeld(ICore::Button button) = 0;
 
+    using MouseButtonReleaseEvent = IDisplayModule::MouseButtonReleaseEvent;
+    // See IDisplayModule::getMouseButtonReleaseEvent for docs
+    virtual MouseButtonReleaseEvent getMouseButtonReleaseEvent() = 0;
+
     // See IDisplayModule::startTextInput for docs
     virtual void startTextInput() = 0;
 

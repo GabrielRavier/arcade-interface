@@ -73,6 +73,17 @@ public:
     // isButtonHeld returns whether a button is held in any way (including if it was held on the previous frame)
     virtual bool isButtonHeld(IDisplayModule::Button button) = 0;
 
+    struct MouseButtonReleaseEvent {
+        enum class Type {
+            None,
+            Left,
+            Right,
+        };
+        std::uint32_t x, y;
+    };
+    // If someone released a mouse button on this frame, this will return a MouseButtonReleaseEvent with information on which button was released and where
+    virtual MouseButtonReleaseEvent getMouseButtonReleaseEvent() = 0;
+
     // You MUST call this before calling getTextInput, and should preferably do nothing else related to input than calling getTextInput until you call endTextInput
     virtual void startTextInput() = 0;
 
@@ -96,5 +107,5 @@ public:
     virtual void display() = 0;
 };
 
-// Note: This should be a pointer to some IDisplayModuleImpl (please do not make this an actual class name)
-extern "C" IDisplayModule *gEpitechArcadeDisplayModuleHandle;
+// Note: This should return a pointer to some IDisplayModuleImpl (please do not make that an actual class name), which should then be deleted when we're done with the module
+extern "C" std::unique_ptr<IDisplayModule> gEpitechArcadeGetDisplayModuleHandle();

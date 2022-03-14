@@ -2,6 +2,7 @@
 
 #include "ICore.hpp"
 #include "IDisplayModule.hpp"
+#include <memory>
 
 class IGameModule {
 public:
@@ -15,5 +16,5 @@ public:
 	virtual void draw() = 0;
 };
 
-// Note: This should be a pointer to some IGameModuleImpl (please do not make this an actual class name)
-extern "C" IGameModule *gEpitechArcadeGameModuleHandle;
+// Note: This should return a pointer to some IGameModuleImpl (please do not make that an actual class name), which should then be deleted when we're done with the module
+extern "C" std::unique_ptr<IGameModule> gEpitechArcadeGetGameModuleHandle();
