@@ -88,7 +88,7 @@ public:
     };
 
     // This renders a sprite, although it WILL NOT be displayed onto the screen until display() is called.
-    // Note that in text mode, a sprite will ALWAYS take at least one cell, whichever cell overlaps the most with the sprite. In text mode, should a sprite overlap more than one cell, its color WILL be displayed onto every cell for which it overlaps onto more than 50% of its area (although its character WILL NOT be display onto more than one cell).
+    // Note that in text mode, a sprite will ALWAYS take at least one cell, whichever cell overlaps the most with the sprite. In text mode, should a sprite overlap more than one cell, its color WILL be displayed onto every cell for which it overlaps onto more than 50% of its area (although its character WILL NOT be displayed onto more than one cell).
     // Note that if multiple sprites are rendered onto one another, the order in which they are layered corresponds to the order in which they were rendered (i.e. when two sprites overlap, whichever was rendered last is rendered on top of the other)
     virtual void renderSprite(IDisplayModule::Sprite sprite) = 0;
 

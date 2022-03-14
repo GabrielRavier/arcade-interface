@@ -26,7 +26,7 @@ public:
     // This exists because one needs to be able to dynamically reload the textures when changing the display module.
     // Essentially, this needs to contain all the information to pass to IDisplayModule::loadTexture, and a pointer to the result of that, so that when changing graphics library one can call IDisplayModule::loadTexture with the arguments and update the raw texture pointer.
     // That raw texture pointer should NEVER be visible to the IGameModule, such as to avoid potential leaks of texture pointers which could lead to invalid usage
-    // Hint: std::deque is probably the best way you can implement the texture store (which you need to be able to reload them)
+    // To implementers: std::deque is probably the best way you can implement the texture store (which you need to be able to reload them)
     class Texture;
     virtual Texture *loadTexture(const std::string &pngFilename, char character, ICore::Color color, std::size_t width, std::size_t height) = 0;
 
