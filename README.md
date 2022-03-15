@@ -27,12 +27,12 @@ ICore::Vector2u getSquareCenter(ICore::Vector2u squareTopLeftPos, ICore::Vector2
 }
 ```
 
-We also made the decision of having the game modules only ever be able to interact with the ICore interface, such as to prevent any misuse of the IDisplayModule interface. The ICore interface exposes most of IDisplayModule, save for a few functions which cannot be exposed safely (or are redundant). If you want to understand why this decision was made, see such functions as IDisplayModule::loadTexture, which was the motivating example for this deicison.
+We also made the decision of having the game modules only ever be able to interact with the `ICore` interface, such as to prevent any misuse of the `IDisplayModule` interface. The `ICore` interface exposes much of the same interface as `IDisplayModule` (with a few other additions), save for a few functions which cannot be exposed safely (or are redundant). If you want to understand why this decision was made, see such functions as `IDisplayModule::loadTexture`, which was the motivating example for this decision.
 
 ## How to implement this interface
 
-The core application (i.e. the program that can load dynamic libraries) needs to implement the ICore interface.
+The core application (i.e. the program that loads dynamic libraries and is always present) needs to implement the `ICore` interface.
 
-Each graphics shared library needs have an implementation of the IDisplayModule interface, and then implement the gEpitechArcadeGetDisplayModuleHandle function, which returns a unique_ptr to such an interface.
+Each graphics shared library needs have an implementation of the `IDisplayModule` interface, and then implement the `gEpitechArcadeGetDisplayModuleHandle` function, which returns a unique_ptr to such an interface.
 
-Each game shared library needs have an implementation of the IGameModule interface, and then implement the gEpitechArcadeGetGameModuleHandle function, which returns a unique_ptr to such an interface.
+Each game shared library needs have an implementation of the `IGameModule` interface, and then implement the `gEpitechArcadeGetGameModuleHandle` function, which returns an `std::unique_ptr` to such an interface.
