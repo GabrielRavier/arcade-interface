@@ -67,7 +67,7 @@ public:
             Left,
             Right,
         };
-        std::uint32_t cellX, cellY;
+        Vector2u cellPosition;
     };
     // If someone released a mouse button on this frame, this will return a MouseButtonReleaseEvent with information on which button was released and where
     virtual MouseButtonReleaseEvent getMouseButtonReleaseEvent() = 0;
