@@ -36,3 +36,7 @@ The core application (i.e. the program that loads dynamic libraries and is alway
 Each graphics shared library needs have an implementation of the `IDisplayModule` interface, and then implement the `gEpitechArcadeGetDisplayModuleHandle` function, which returns a unique_ptr to such an interface.
 
 Each game shared library needs have an implementation of the `IGameModule` interface, and then implement the `gEpitechArcadeGetGameModuleHandle` function, which returns an `std::unique_ptr` to such an interface.
+
+## Contributing
+
+Randomly talking in PMs on Discord does work in some ways, but using the Github Issues or Pull Requests system would be nice if you have concerns about some part of the interface. This allows these conversations to be public and to see whenever someone does something on the repo by using the GitHub Watch functionality (see the top right of the GitHub page).
