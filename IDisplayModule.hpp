@@ -28,25 +28,15 @@ public:
     };
 
     // This MUST not be 0. It is the width and height of a call in the game
-    std::uint32_t pixelsPerCell;
-
-    // This function converts a raw position (i.e. a position as measured in pixels) into a cell position (i.e. a position as measured in cells)
-    Vector2u rawPixelPositionToCellPosition(Vector2u rawPosition)
-    {
-        return {rawPosition.x / this->pixelsPerCell, rawPosition.y / this->pixelsPerCell};
-    }
-
-    // This function converts a cell position to a raw position
-    Vector2u cellPositionToRawPixelPosition(Vector2u cellPosition)
-    {
-        return {cellPosition.x * this->pixelsPerCell, cellPosition.y * this->pixelsPerCell};
-    }
+    // Yes, I know this is stupid and this could just be a variable, but we apparently have to be "pure" and that means no variables at all in interfaces apparently
+    void setPixelsPerCell(std::uint32_t pixelsPerCell);
+    std::uint32_t getPixelsPerCell();
 
     // RawTexture is a class containing a texture. A texture contains a width and a height, which SHOULD correspond to the width and height of the image in the .png file. Note that with a backend that supports using images in sprite (usually graphics), usually only the pngFilename parameters will be used, whereas on a backend that does not (usually text) usually only the rest of the parameters will be used. Note that pointers to RawTexture become invalid after destroying a graphics library and MUST NOT be used
     class RawTexture;
 
-    // This MUST only ever be called by ICore, which MUST properly handle the case where graphics libraries are reloaded during a game session (and yes the subject requires this
-    virtual RawTexture *loadTexture(const std::string &pngFilename, char character, IDisplayModule::Color color, std::size_t width, std::size_t height) = 0;
+    // This MUST only ever be called by ICore, which MUST properly handle the case where graphics libraries are reloaded during a game session (and yes the subject requires this)
+    virtual RawTexture *loadTexture(const std::string &pngFilename, char character, IDisplayModule::Color characterColor, IDisplayModule::Color backgroundColor, std::size_t width, std::size_t height) = 0;
 
     // This opens the window with the wanted window size. The size is in pixels. It MUST be called before trying to render or display anything. 
     virtual void openWindow(Vector2u pixelsWantedWindowSize) = 0;
@@ -68,10 +58,8 @@ public:
     };
 
     // isButtonPressed returns whether the button has started getting held on this frame (i.e. if the button was also held on the previous frame it will return false)
+    // If you're wondering why there's no interface to get the currently held buttons (i.e. without regards to whether they just started getting held), just try to implement that with ncurses :p. Anyway, if you go look at how the games we're supposed to do, you'll see they're easily implemented without this
     virtual bool isButtonPressed(IDisplayModule::Button button) = 0;
-
-    // isButtonHeld returns whether a button is held in any way (including if it was held on the previous frame)
-    virtual bool isButtonHeld(IDisplayModule::Button button) = 0;
 
     struct MouseButtonReleaseEvent {
         enum class Type {
@@ -79,7 +67,7 @@ public:
             Left,
             Right,
         };
-        std::uint32_t x, y;
+        std::uint32_t cellX, cellY;
     };
     // If someone released a mouse button on this frame, this will return a MouseButtonReleaseEvent with information on which button was released and where
     virtual MouseButtonReleaseEvent getMouseButtonReleaseEvent() = 0;

@@ -18,17 +18,12 @@ public:
     // See IDisplayModule::Color for docs
     using Color = IDisplayModule::Color;
 
-    static Vector2u getSquareCenter(Vector2u squareTopLeftPos, Vector2u squareSize)
-    {
-        return {squareTopLeftPos.x + ((squareTopLeftPos.x - squareSize.x) / 2), squareTopLeftPos.y + ((squareTopLeftPos.y - squareSize.y) / 2)};
-    }
-
     // This exists because one needs to be able to dynamically reload the textures when changing the display module.
     // Essentially, this needs to contain all the information to pass to IDisplayModule::loadTexture, and a pointer to the result of that, so that when changing graphics library one can call IDisplayModule::loadTexture with the arguments and update the raw texture pointer.
     // That raw texture pointer should NEVER be visible to the IGameModule, such as to avoid potential leaks of texture pointers which could lead to invalid usage
-    // To implementers: std::deque is probably the best way you can implement the texture store (which you need to be able to reload them)
+    // To implementers: std::deque is probably the best way you can implement the texture store (which you need to be able to reload them), as pointers to elements of an std::vector do not stay stable when increasing the size of the vector
     class Texture;
-    virtual Texture *loadTexture(const std::string &pngFilename, char character, ICore::Color color, std::size_t width, std::size_t height) = 0;
+    virtual Texture *loadTexture(const std::string &pngFilename, char character, ICore::Color characterColor, ICore::Color backgroundColor, std::size_t width, std::size_t height) = 0;
 
     // See IDisplayModule::openWindow for docs
     virtual void openWindow(Vector2u pixelsWantedWindowSize) = 0;
@@ -38,9 +33,6 @@ public:
 
     // See IDisplayModule::isButtonPressed for docs
     virtual bool isButtonPressed(ICore::Button button) = 0;
-
-    // See IDisplayModule::isButtonHeld for docs
-    virtual bool isButtonHeld(ICore::Button button) = 0;
 
     using MouseButtonReleaseEvent = IDisplayModule::MouseButtonReleaseEvent;
     // See IDisplayModule::getMouseButtonReleaseEvent for docs
