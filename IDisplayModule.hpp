@@ -32,11 +32,14 @@ public:
     void setPixelsPerCell(std::uint32_t pixelsPerCell);
     std::uint32_t getPixelsPerCell();
 
-    // RawTexture is a class containing a texture. A texture contains a width and a height, which SHOULD correspond to the width and height of the image in the .png file. Note that with a backend that supports using images in sprite (usually graphics), usually only the pngFilename parameters will be used, whereas on a backend that does not (usually text) usually only the rest of the parameters will be used. Note that pointers to RawTexture become invalid after destroying a graphics library and MUST NOT be used
-    class RawTexture;
+    // RawTexture is a class containing a texture. A texture contains a width and a height, which SHOULD correspond to the width and height of the image in the .png file. Note that with a backend that supports using images in sprite (usually graphics), usually only the pngFilename parameters will be used, whereas on a backend that does not (usually text) usually only the rest of the parameters will be used. Note that pointers to RawTexture become invalid after destroying a graphics library and MUST be destroyed before doing so
+    class RawTexture {
+    public:
+        virtual ~RawTexture() = 0;
+    };
 
     // This MUST only ever be called by ICore, which MUST properly handle the case where graphics libraries are reloaded during a game session (and yes the subject requires this)
-    virtual RawTexture *loadTexture(const std::string &pngFilename, char character, IDisplayModule::Color characterColor, IDisplayModule::Color backgroundColor, std::size_t width, std::size_t height) = 0;
+    virtual std::unique_ptr<RawTexture> loadTexture(const std::string &pngFilename, char character, IDisplayModule::Color characterColor, IDisplayModule::Color backgroundColor, std::size_t width, std::size_t height) = 0;
 
     // This opens the window with the wanted window size. The size is in pixels. It MUST be called before trying to render or display anything. 
     virtual void openWindow(Vector2u pixelsWantedWindowSize) = 0;
