@@ -116,5 +116,10 @@ public:
     virtual void display() = 0;
 };
 
+// This is here so that you don't get an "undefined symbol: _ZN14IDisplayModule10RawTextureD2Ev" error when importing your shared libraries. This is actually allowed, you can in fact have pure virtual interfaces that are still implemented. The purpose of leaving it as a pure virtual interface is so that IDisplayModule::RawTexture cannot be instantiated by itself and has to be implemented.
+inline IDisplayModule::RawTexture::~RawTexture()
+{
+}
+
 // Note: This should return a pointer to some IDisplayModuleImpl (please do not make that an actual class name), which should then be deleted when we're done with the module
 extern "C" std::unique_ptr<IDisplayModule> gEpitechArcadeGetDisplayModuleHandle();
