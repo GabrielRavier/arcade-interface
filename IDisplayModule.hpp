@@ -104,6 +104,9 @@ public:
         IDisplayModule::RawTexture *texture;
     };
 
+    // This replaces the entire current contents of the screen with the chosen background color. This could also be done by just displaying a big texture to do this, but this is simpler and avoids having to carry around a png file just for this.
+    virtual void clearScreen(IDisplayModule::Color color) = 0;
+
     // This renders a sprite, although it WILL NOT be displayed onto the screen until display() is called.
     // Note that in text mode, a sprite will ALWAYS take at least one cell, whichever cell overlaps the most with the sprite. In text mode, should a sprite overlap more than one cell, its color WILL be displayed onto every cell for which it overlaps onto more than 50% of its area (although its character WILL NOT be displayed onto more than one cell).
     // Note that if multiple sprites are rendered onto one another, the order in which they are layered corresponds to the order in which they were rendered (i.e. when two sprites overlap, whichever was rendered last is rendered on top of the other)
