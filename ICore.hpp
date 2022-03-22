@@ -54,4 +54,7 @@ public:
 
     // This is equivalent to IDisplayModule::renderSprite, except that it accepts core sprites instead of DisplayModule sprites
     virtual void renderSprite(ICore::Sprite sprite) = 0;
+
+    // See IDisplayModule::display for docs
+    virtual void display() = 0;
 };
