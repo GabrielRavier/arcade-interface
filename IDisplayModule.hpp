@@ -44,7 +44,15 @@ public:
     // This opens the window with the wanted window size. The size is in pixels. It MUST be called before trying to render or display anything. 
     virtual void openWindow(IDisplayModule::Vector2u pixelsWantedWindowSize) = 0;
 
-    // These are probably all the buttons you need. I would personally recommand that they map onto WASD (for left right up down), the arrow keys (for abxy), q and e (for l and r) and c and v (for start and select) to have a layout as close to an actual controller, but if you want you can do something else 
+    // These are probably all the buttons you need. I would personally recommand that they map onto WASD (for left right up down), the arrow keys (for abxy), q and e (for l and r) and c and v (for start and select) to have a layout as close to an actual controller, but if you want you can do something else (...probably your core should tell people what the inputs are in the menu...)
+    // The F1 to F7 buttons MUST NOT be used by the game as they WILL be used by the core to handle the following inputs (preferrably in the same order), which are MANDATED by the subject:
+    // - Previous graphics library
+    // - Next graphics library
+    // - Previous game
+    // - Next game
+    // - Restart the game
+    // - Go back to the menu
+    // - Exit
     enum class Button {
         Left,
         Right,
@@ -57,7 +65,14 @@ public:
         L,
         R,
         Start,
-        Select
+        Select,
+        F1,
+        F2,
+        F3,
+        F4,
+        F5,
+        F6,
+        F7,
     };
 
     // isButtonPressed returns whether the button has started getting held on this frame (i.e. if the button was also held on the previous frame it will return false)
