@@ -23,10 +23,10 @@ public:
     // That raw texture pointer should NEVER be visible to the IGameModule, such as to avoid potential leaks of texture pointers which could lead to invalid usage
     // To implementers: std::deque is probably the best way you can implement the texture store (which you need to be able to reload them), as pointers to elements of an std::vector do not stay stable when increasing the size of the vector
     class Texture;
-    virtual Texture *loadTexture(const std::string &pngFilename, char character, ICore::Color characterColor, ICore::Color backgroundColor, std::size_t width, std::size_t height) = 0;
+    virtual ICore::Texture *loadTexture(const std::string &pngFilename, char character, ICore::Color characterColor, ICore::Color backgroundColor, std::size_t width, std::size_t height) = 0;
 
     // See IDisplayModule::openWindow for docs
-    virtual void openWindow(Vector2u pixelsWantedWindowSize) = 0;
+    virtual void openWindow(ICore::Vector2u pixelsWantedWindowSize) = 0;
 
     // See IDisplayModule::Button for docs
     using Button = IDisplayModule::Button;
@@ -36,7 +36,7 @@ public:
 
     using MouseButtonReleaseEvent = IDisplayModule::MouseButtonReleaseEvent;
     // See IDisplayModule::getMouseButtonReleaseEvent for docs
-    virtual MouseButtonReleaseEvent getMouseButtonReleaseEvent() = 0;
+    virtual ICore::MouseButtonReleaseEvent getMouseButtonReleaseEvent() = 0;
 
     // See IDisplayModule::startTextInput for docs
     virtual void startTextInput() = 0;
@@ -48,7 +48,7 @@ public:
     virtual void endTextInput() = 0;
 
     struct Sprite {
-        Vector2u pixelPosition;
+        ICore::Vector2u pixelPosition;
         ICore::Texture *texture;
     };
 

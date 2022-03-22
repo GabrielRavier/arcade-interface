@@ -39,10 +39,10 @@ public:
     };
 
     // This MUST only ever be called by ICore, which MUST properly handle the case where graphics libraries are reloaded during a game session (and yes the subject requires this)
-    virtual std::unique_ptr<RawTexture> loadTexture(const std::string &pngFilename, char character, IDisplayModule::Color characterColor, IDisplayModule::Color backgroundColor, std::size_t width, std::size_t height) = 0;
+    virtual std::unique_ptr<IDisplayModule::RawTexture> loadTexture(const std::string &pngFilename, char character, IDisplayModule::Color characterColor, IDisplayModule::Color backgroundColor, std::size_t width, std::size_t height) = 0;
 
     // This opens the window with the wanted window size. The size is in pixels. It MUST be called before trying to render or display anything. 
-    virtual void openWindow(Vector2u pixelsWantedWindowSize) = 0;
+    virtual void openWindow(IDisplayModule::Vector2u pixelsWantedWindowSize) = 0;
 
     // These are probably all the buttons you need. I would personally recommand that they map onto WASD (for left right up down), the arrow keys (for abxy), q and e (for l and r) and c and v (for start and select) to have a layout as close to an actual controller, but if you want you can do something else 
     enum class Button {
@@ -70,10 +70,10 @@ public:
             Left,
             Right,
         };
-        Vector2u cellPosition;
+        IDisplayModule::Vector2u cellPosition;
     };
     // If someone released a mouse button on this frame, this will return a MouseButtonReleaseEvent with information on which button was released and where
-    virtual MouseButtonReleaseEvent getMouseButtonReleaseEvent() = 0;
+    virtual IDisplayModule::MouseButtonReleaseEvent getMouseButtonReleaseEvent() = 0;
 
     // You MUST call this before calling getTextInput, and should preferably do nothing else related to input than calling getTextInput until you call endTextInput
     virtual void startTextInput() = 0;
@@ -85,7 +85,7 @@ public:
     virtual void endTextInput() = 0;
 
     struct Sprite {
-        Vector2u rawPixelPosition;
+        IDisplayModule::Vector2u rawPixelPosition;
         IDisplayModule::RawTexture *texture;
     };
 
