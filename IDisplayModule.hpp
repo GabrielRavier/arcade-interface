@@ -29,8 +29,8 @@ public:
 
     // This MUST not be 0. It is the width and height of a call in the game
     // Yes, I know this is stupid and this could just be a variable, but we apparently have to be "pure" and that means no variables at all in interfaces apparently
-    void setPixelsPerCell(std::uint32_t pixelsPerCell);
-    std::uint32_t getPixelsPerCell();
+    virtual void setPixelsPerCell(std::uint32_t pixelsPerCell) = 0;
+    virtual std::uint32_t getPixelsPerCell() = 0;
 
     // RawTexture is a class containing a texture. A texture contains a width and a height, which SHOULD correspond to the width and height of the image in the .png file. Note that with a backend that supports using images in sprite (usually graphics), usually only the pngFilename parameters will be used, whereas on a backend that does not (usually text) usually only the rest of the parameters will be used. Note that pointers to RawTexture become invalid after destroying a graphics library and MUST be destroyed before doing so
     class RawTexture {
