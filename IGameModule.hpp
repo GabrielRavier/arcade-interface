@@ -6,7 +6,7 @@
 
 class IGameModule {
 public:
-    virtual ~IGameModule() = 0;
+    virtual ~IGameModule() = default
 
     // This should initialize the state of the game module. It MUST be called before doing anything else with the game module
     virtual void init(ICore *coreHandle) = 0;
