@@ -9,6 +9,8 @@
 // - pixelsPerCell must be set to the value from the old display module
 class IDisplayModule {
 public:
+    virtual ~IDisplayModule() = default;
+
     // Usually used to represent positions
     struct Vector2u {
         std::uint32_t x;

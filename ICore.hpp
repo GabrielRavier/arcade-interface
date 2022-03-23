@@ -5,6 +5,8 @@
 
 class ICore {
 public:
+    virtual ~ICore() = default;
+
     // Sets the amount of pixels contained in every cell. pixelsPerCell MUST NOT be 0, and this MUST be called before trying to do anything w.r.t. rendering/displaying
     virtual void setPixelsPerCell(std::uint32_t pixelsPerCell) = 0;
 
