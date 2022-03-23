@@ -120,8 +120,11 @@ public:
     // Note that if multiple sprites are rendered onto one another, the order in which they are layered corresponds to the order in which they were rendered (i.e. when two sprites overlap, whichever was rendered last is rendered on top of the other)
     virtual void renderSprite(IDisplayModule::Sprite sprite) = 0;
 
-    // This does the actual displaying (i.e. actually puts the pixels that have been drawn onto the screen). It does no sleeping, as the core is responsible for that.
+    // This MUST be called to do the actual displaying (i.e. actually puts the pixels that have been drawn onto the screen). It does no sleeping, as the core is responsible for that.
     virtual void display() = 0;
+
+    // This MUST be called by the core after the end of each frame (i.e. AFTER SLEEPING so as to avoid input lag) so as to allow the display module to poll events and things like that
+    virtual void update() = 0;
 };
 
 // This is here so that you don't get an "undefined symbol: _ZN14IDisplayModule10RawTextureD2Ev" error when importing your shared libraries. This is actually allowed, you can in fact have pure virtual interfaces that are still implemented. The purpose of leaving it as a pure virtual interface is so that IDisplayModule::RawTexture cannot be instantiated by itself and has to be implemented.
