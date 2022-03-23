@@ -53,7 +53,7 @@ public:
     };
 
     // See IDisplayModule::clearScreen for docs
-    virtual void clearScreen(IDisplayModule::Color color) = 0;
+    virtual void clearScreen(ICore::Color color) = 0;
 
     // This is equivalent to IDisplayModule::renderSprite, except that it accepts core sprites instead of DisplayModule sprites
     virtual void renderSprite(ICore::Sprite sprite) = 0;
