@@ -59,4 +59,8 @@ public:
 
     // This is equivalent to IDisplayModule::renderSprite, except that it accepts core sprites instead of DisplayModule sprites
     virtual void renderSprite(ICore::Sprite sprite) = 0;
+
+    // This tells the core about the score of a game session that was just finished (i.e. the player got a game over or something like that)
+    // Note: This DOES NOT mean that the core should go back to the menu or do anything apart from adding the given score to the score list
+    virtual void addNewScore(std::uint64_t score) = 0;
 };
