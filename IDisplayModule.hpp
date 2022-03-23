@@ -17,7 +17,8 @@ public:
         std::uint32_t y;
     };
 
-    // All the background colors a cell can be. Can't really do more than this considering this is the minimum set that ncurses implements, and adding anymore would make this a ridiculous mess
+    // All the colors a cell can be. Can't really do more than this considering this is the minimum set that ncurses implements, and adding anymore would make this a ridiculous mess
+    // Note that "none" means no color at all (i.e. the character or background of a sprite are not drawn, for example)
     enum class Color {
         black,
         red,
@@ -27,6 +28,7 @@ public:
         magenta,
         cyan,
         white,
+        none,
     };
 
     // This MUST not be 0. It is the width and height of a call in the game
@@ -110,7 +112,7 @@ public:
     virtual void clearScreen(IDisplayModule::Color color) = 0;
 
     // This renders a sprite, although it WILL NOT be displayed onto the screen until display() is called.
-    // Note that in text mode, a sprite will ALWAYS take at least one cell, whichever cell overlaps the most with the sprite. In text mode, should a sprite overlap more than one cell, its color WILL be displayed onto every cell for which it overlaps onto more than 50% of its area (although its character WILL NOT be displayed onto more than one cell).
+    // Note that in text mode, a sprite will ALWAYS take at least one cell, whichever cell is at the center of the sprite. In text mode, should a sprite overlap more than one cell, its color WILL NOT be displayed onto any other cell. PLEASE DO NOT make graphics that take much more than a cell to display...
     // Note that if multiple sprites are rendered onto one another, the order in which they are layered corresponds to the order in which they were rendered (i.e. when two sprites overlap, whichever was rendered last is rendered on top of the other)
     virtual void renderSprite(IDisplayModule::Sprite sprite) = 0;
 
