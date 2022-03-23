@@ -94,6 +94,10 @@ public:
     // If someone released a mouse button on this frame, this will return a MouseButtonReleaseEvent with information on which button was released and where
     virtual IDisplayModule::MouseButtonReleaseEvent getMouseButtonReleaseEvent() = 0;
 
+    // Did the user just try to close the game in a way that only the display can see ? (e.g. sf::Event::Closed, SDL_QUIT, etc.)
+    // Note: the core should handle this the same way as pressing F7, i.e. immediately exit
+    virtual bool isClosing() = 0;
+
     // You MUST call this before calling getTextInput, and should preferably do nothing else related to input than calling getTextInput until you call endTextInput
     virtual void startTextInput() = 0;
 
