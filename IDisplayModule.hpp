@@ -18,7 +18,6 @@ public:
     };
 
     // All the colors a cell can be. Can't really do more than this considering this is the minimum set that ncurses implements, and adding anymore would make this a ridiculous mess
-    // Note that "none" means no color at all (i.e. the character or background of a sprite are not drawn, for example)
     enum class Color {
         black,
         red,
@@ -28,7 +27,6 @@ public:
         magenta,
         cyan,
         white,
-        none,
     };
 
     // This MUST not be 0. It is the width and height of a call in the game
@@ -98,6 +96,7 @@ public:
         IDisplayModule::Vector2u cellPosition;
     };
     // If someone released a mouse button on this frame, this will return a MouseButtonReleaseEvent with information on which button was released and where
+    // Note that events gotten from this do not "exhaust" or anything like that. You can call getMouseButtonReleaseEvent as many times as you want in a frame without any problems
     virtual IDisplayModule::MouseButtonReleaseEvent getMouseButtonReleaseEvent() = 0;
 
     // Did the user just try to close the game in a way that only the display can see ? (e.g. sf::Event::Closed, SDL_QUIT, etc.)
@@ -108,7 +107,7 @@ public:
     virtual void startTextInput() = 0;
 
     // This MUST never be called while not in between a call to startTextInput and a call to endTextInput
-    // This returns text read from the user, as a string.
+    // This returns text read from the user DURING THE CURRENT FRAME, as a string.
     // Usage of backspace WILL be returned as a \b character.
     // Usage of enter WILL be returned as a \n character.
     virtual std::string getTextInput() = 0;
@@ -125,7 +124,7 @@ public:
     virtual void clearScreen(IDisplayModule::Color color) = 0;
 
     // This renders a sprite, although it WILL NOT be displayed onto the screen until display() is called.
-    // Note that in text mode, a sprite will ALWAYS take at least one cell, whichever cell is at the center of the sprite. In text mode, should a sprite overlap more than one cell, its color WILL NOT be displayed onto any other cell. PLEASE DO NOT make graphics that take much more than a cell to display...
+    // Note that in text mode, a sprite will ALWAYS take at least one cell, whichever cell is at the center of the sprite. In text mode, should a sprite overlap more than one cell, its color WILL NOT be displayed onto any other cell. PLEASE DO NOT make graphics that take much more than a cell to display... (If your textures are larger than pixelsPerCell * 2, you're likely doing something wrong...)
     // Note that if multiple sprites are rendered onto one another, the order in which they are layered corresponds to the order in which they were rendered (i.e. when two sprites overlap, whichever was rendered last is rendered on top of the other)
     virtual void renderSprite(IDisplayModule::Sprite sprite) = 0;
 
