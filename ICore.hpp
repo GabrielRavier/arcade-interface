@@ -63,4 +63,7 @@ public:
     // This tells the core about the score of a game session that was just finished (i.e. the player got a game over or something like that)
     // Note: This DOES NOT mean that the core should go back to the menu or do anything apart from adding the given score to the score list
     virtual void addNewScore(std::uint32_t score) = 0;
+
+    // This returns the name of the player, i.e. the name that will be tied to their score at the end of the game. You might want to use this to display it next to the score or something like that
+    virtual const std::string &getPlayerName() = 0;
 };
